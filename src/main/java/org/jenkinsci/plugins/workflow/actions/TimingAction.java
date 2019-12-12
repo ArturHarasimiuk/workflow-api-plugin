@@ -25,18 +25,22 @@ package org.jenkinsci.plugins.workflow.actions;
 
 import hudson.model.Action;
 import org.jenkinsci.plugins.workflow.graph.FlowNode;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
 
 /**
  * Action to add timestamp metadata to a {@link FlowNode}.
  *
  * @author <a href="mailto:tom.fennelly@gmail.com">tom.fennelly@gmail.com</a>
  */
+@ExportedBean
 public class TimingAction implements Action {
 
     // TODO perhaps add a FlowNodeViewColumn rendering <i:formatDate value="…" type="both" dateStyle="medium" timeStyle="medium"/>
 
     private final long startTime = System.currentTimeMillis();
 
+    @Exported
     public long getStartTime() {
         return startTime;
     }

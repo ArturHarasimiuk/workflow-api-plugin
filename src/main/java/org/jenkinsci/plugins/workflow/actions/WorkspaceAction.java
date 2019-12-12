@@ -33,12 +33,17 @@ import javax.annotation.Nonnull;
 import jenkins.model.Jenkins;
 import org.jenkinsci.plugins.workflow.FilePathUtils;
 
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
+
 /**
  * Represents the fact that a step run on a particular workspace.
  */
+@ExportedBean
 public abstract class WorkspaceAction implements PersistentAction {
 
     /** The {@link Node#getNodeName} of the workspace. */
+    @Exported
     public abstract @Nonnull String getNode();
 
     /** The {@link FilePath#getRemote} of the workspace. */

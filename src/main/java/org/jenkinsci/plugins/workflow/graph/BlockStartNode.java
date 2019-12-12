@@ -24,10 +24,16 @@
 
 package org.jenkinsci.plugins.workflow.graph;
 
+import hudson.model.Actionable;
+
+import org.jenkinsci.plugins.workflow.actions.TimingAction;
 import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 
 import javax.annotation.CheckForNull;
 import java.util.List;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
+
 
 /**
  * Together with {@link BlockEndNode}, designates some kind of nested structure that contains "children",
@@ -37,6 +43,7 @@ import java.util.List;
  * @author Jesse Glick
  * @see BlockEndNode
  */
+@ExportedBean
 public abstract class BlockStartNode extends FlowNode {
     protected BlockStartNode(FlowExecution exec, String id, FlowNode... parents) {
         super(exec, id, parents);
@@ -50,5 +57,25 @@ public abstract class BlockStartNode extends FlowNode {
     @CheckForNull
     public BlockEndNode getEndNode() {
         return this.getExecution().getEndNode(this);
+    }
+
+    private Long getStartTime(Actionable node) {
+        TimingAction action = node.getAction(TimingAction.class);
+        if(action!=null)
+            return action.getStartTime();
+        return null;
+    }
+
+    @Exported
+    public Long getStartTime() {
+        return getStartTime(this);
+    }
+
+    @Exported
+    public Long getDuration() {
+        Actionable endNode =  this.getExecution().getEndNode(this);
+        if(endNode != null)
+            return getStartTime(endNode) - getStartTime(this);
+        return null;
     }
 }

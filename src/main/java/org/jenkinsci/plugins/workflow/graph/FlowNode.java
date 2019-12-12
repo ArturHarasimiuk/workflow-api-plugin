@@ -49,6 +49,7 @@ import org.jenkinsci.plugins.workflow.actions.ErrorAction;
 import org.jenkinsci.plugins.workflow.actions.LabelAction;
 import org.jenkinsci.plugins.workflow.actions.PersistentAction;
 import org.jenkinsci.plugins.workflow.actions.WarningAction;
+import org.jenkinsci.plugins.workflow.actions.WorkspaceAction;
 import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 import org.jenkinsci.plugins.workflow.steps.FlowInterruptedException;
 import org.jenkinsci.plugins.workflow.steps.StepDescriptor;
@@ -464,6 +465,15 @@ public abstract class FlowNode extends Actionable implements Saveable {
                     return actions.size();
                 }
         };
+    }
+
+    @Exported
+    public String getExecNode() {
+        WorkspaceAction action = getAction(WorkspaceAction.class);
+        if(action != null) {
+            return action.getNode();
+        }
+        return null;
     }
 
     /**

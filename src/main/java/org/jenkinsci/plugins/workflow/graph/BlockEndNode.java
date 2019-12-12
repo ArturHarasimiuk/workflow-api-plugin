@@ -29,11 +29,15 @@ import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 
 import java.util.List;
 import javax.annotation.Nonnull;
+import org.kohsuke.stapler.export.Exported;
+import org.kohsuke.stapler.export.ExportedBean;
+
 
 /**
  * End of a block.
  * @see BlockStartNode
  */
+@ExportedBean
 public abstract class BlockEndNode<START extends BlockStartNode> extends FlowNode {
     private transient START start;
     private final String startId;
@@ -69,4 +73,8 @@ public abstract class BlockEndNode<START extends BlockStartNode> extends FlowNod
         return start;
     }
 
+    @Exported
+    public final String getStartId() {
+        return startId;
+    }
 }
